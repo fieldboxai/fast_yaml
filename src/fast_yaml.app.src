@@ -5,7 +5,7 @@
 %%% Created : 4 Apr 2013 by Evgeniy Khramtsov <ekhramtsov@process-one.net>
 %%%
 %%%
-%%% Copyright (C) 2002-2017 ProcessOne, SARL. All Rights Reserved.
+%%% Copyright (C) 2002-2019 ProcessOne, SARL. All Rights Reserved.
 %%%
 %%% Licensed under the Apache License, Version 2.0 (the "License");
 %%% you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 
 {application, fast_yaml,
  [{description,  "Fast YAML native library for Erlang / Elixir"},
-  {vsn,          "1.0.9"},
+  {vsn,          "1.0.19"},
   {modules,      []},
   {registered,   []},
   {applications, [kernel, stdlib]},
@@ -32,7 +32,6 @@
   %% hex.pm packaging:
   {files, ["src/", "c_src/fast_yaml.c", "include/", "rebar.config", "rebar.config.script", "README.md", "LICENSE.txt"]},
   {licenses, ["Apache 2.0"]},
-  {maintainers, ["ProcessOne"]},
   {links, [{"Github", "https://github.com/processone/fast_yaml"}]}]}.
 
 %% Local Variables:

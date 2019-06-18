@@ -5,7 +5,7 @@
 %%% Created : 7 Aug 2013 by Evgeniy Khramtsov <ekhramtsov@process-one.net>
 %%%
 %%%
-%%% Copyright (C) 2002-2017 ProcessOne, SARL. All Rights Reserved.
+%%% Copyright (C) 2002-2019 ProcessOne, SARL. All Rights Reserved.
 %%%
 %%% Licensed under the Apache License, Version 2.0 (the "License");
 %%% you may not use this file except in compliance with the License.
@@ -71,7 +71,12 @@ format_error({Tag, Reason, Line, Column}) when Tag == parser_error;
 format_error(memory_error) ->
     "Memory error";
 format_error(Reason) when is_atom(Reason) ->
-    file:format_error(Reason);
+    case file:format_error(Reason) of
+	"unknown POSIX error" ->
+	    atom_to_list(Reason);
+	Res ->
+	    Res
+    end;
 format_error(_) ->
     "Unexpected error".
 
@@ -100,7 +105,10 @@ decode_from_file(File, Opts) ->
 -spec decode(iodata(), options()) -> {ok, term()} | {error, yaml_error()}.
 
 decode(Data, Opts) ->
-    nif_decode(Data, make_flags(Opts)).
+    try nif_decode(Data, make_flags(Opts))
+    catch error:{parser_error, _, _, _} = Reason ->
+	    {error, Reason}
+    end.
 
 -spec encode(term()) -> iolist().
 
@@ -142,7 +150,7 @@ encode(B, _) when is_binary(B) ->
            ($") -> [$\\, $"];    % $"  ==  double quote
            ($\\) -> [$\\, $\\];  % $\\ ==  backslash
           (C) -> C
-       end, binary_to_list(B)),
+       end, unicode:characters_to_list(B)),
      $"].
 
 encode_pair({K, V}, N) ->
@@ -257,6 +265,16 @@ decode_test5_test() ->
                 {<<"Source">>,<<"\\n">>}]]
         },
         decode_from_file(FileName)).
+
+encode_test1_test() ->
+    ?assertEqual(
+        list_to_binary(encode(<<"a">>)),
+        <<"\"a\"">>).
+
+encode_unicode_test1_test() ->
+    ?assertEqual(
+        unicode:characters_to_binary(encode(<<"☃"/utf8>>)),
+        <<"\"☃\""/utf8>>).
 
 encode_decode_backspace_test() ->
     FileName = filename:join(["..", "test", "temp_test.yml"]),

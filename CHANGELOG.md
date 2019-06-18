@@ -1,3 +1,48 @@
+# Version 1.0.19
+
+* Updating p1_utils to version 1.0.15.
+* Don't crash when atom lenght is > 255
+
+# Version 1.0.18
+
+* Updating p1_utils to version 1.0.14.
+* Add contribution guide
+
+# Version 1.0.17
+
+* Updating p1_utils to version 1.0.13.
+
+# Version 1.0.16
+
+* Updating p1_utils to version 6ff85e8.
+* Add handling of unicode string
+
+# Version 1.0.15
+
+* Updating p1_utils to version 1.0.12.
+
+# Version 1.0.14
+
+* Use http link to p1\_utils dependency
+
+# Version 1.0.13
+
+* Updating p1_utils to version 1.0.11.
+* Fix compilation with rebar3
+
+# Version 1.0.12
+
+* Fix using invalid size in allocations
+
+# Version 1.0.11
+
+* Updating p1_utils to version 1.0.10.
+* Improved error formatting
+
+# Version 1.0.10
+
+* depends on p1_utils-1.0.9
+
 # Version 1.0.9
 
 * Use p1_utils 1.0.7 (Christophe Romain)
